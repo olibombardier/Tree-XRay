@@ -1,0 +1,9 @@
+{
+  "name": "Tree_XRay",
+  "version": "0.1.0",
+  "title": "Tree XRay [Beta]",
+  "author": "Poutinator",
+  "factorio_version": "1.0",
+  "dependencies": ["base >= 1.0"],
+  "description": "Adds a way to see through trees around you"
+}
