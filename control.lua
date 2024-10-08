@@ -4,7 +4,7 @@ local function suffixed(str, ending) -- Taken from bulk-teleport
 	return ending == "" or str:sub(-#ending) == ending
 end
 
-local function swapTree(name, old, surface)
+local function swapTree(name, old, surface, player)
   local newTree = surface.create_entity({
     name = name, 
     position = old.position,
@@ -40,7 +40,7 @@ local function updatePlayerXray(playerIndex)
 
   for _, tree in ipairs(trees) do
     if not suffixed(tree.name, "-xray") and not xrayTreeBlacklist[tree.name] then
-      local newTree = swapTree(tree.name .. "-xray", tree, surface)
+      local newTree = swapTree(tree.name .. "-xray", tree, surface, player)
 
       tree.destroy({raise_destroy = false})
 
@@ -60,7 +60,7 @@ local function updatePlayerXray(playerIndex)
         local dy = tree.position.y - player.position.y
 
         if (dx * dx) + (dy * dy) > radiusSqr or surface ~= tree.surface then
-          swapTree(tree.name:sub(1, -6), tree, tree.surface)
+          swapTree(tree.name:sub(1, -6), tree, tree.surface, player)
 
           tree.destroy({raise_destroy = false})
 
@@ -137,7 +137,7 @@ local function toggleXray(event)
   if not newValue and global.players_xray[event.player_index] then -- We put back normal trees for this player
     for index, tree in pairs(global.players_xray[event.player_index]) do
       if tree.valid then
-        swapTree(tree.name:sub(1, -6), tree, tree.surface)
+        swapTree(tree.name:sub(1, -6), tree, tree.surface, player)
 
         tree.destroy({raise_destroy= false})
       end

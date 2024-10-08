@@ -101,7 +101,7 @@ specificSprites["tree-09"] = {
 specificSprites["tree-09-brown"] = specificSprites["tree-09"]
 specificSprites["tree-09-red"] = specificSprites["tree-09"]
 
-local function createXrayTRee(original)
+local function createXrayTree(original)
   local newTree = table.deepcopy(original)
   newTree.name = newTree.name .. "-xray"
   if changeSelectionBox then
