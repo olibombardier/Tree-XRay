@@ -14,9 +14,17 @@ local function swapTree(name, old, surface)
     spawn_decorations = false
   })
 
+  if old.to_be_deconstructed() then
+    newTree.order_deconstruction(player.force, player)
+  end
+
   if newTree.tree_color_index_max > 0 then
     newTree.tree_color_index = old.tree_color_index
     newTree.tree_stage_index = old.tree_stage_index
+  end
+
+  if newTree.tree_gray_stage_index_max > 0 then
+    newTree.tree_gray_stage_index = old.tree_gray_stage_index
   end
 
   return newTree
@@ -51,7 +59,7 @@ local function updatePlayerXray(playerIndex)
         local dx = tree.position.x - player.position.x
         local dy = tree.position.y - player.position.y
 
-        if (dx * dx) + (dy * dy) > radiusSqr then
+        if (dx * dx) + (dy * dy) > radiusSqr or surface ~= tree.surface then
           swapTree(tree.name:sub(1, -6), tree, tree.surface)
 
           tree.destroy({raise_destroy = false})
@@ -129,7 +137,7 @@ local function toggleXray(event)
   if not newValue and global.players_xray[event.player_index] then -- We put back normal trees for this player
     for index, tree in pairs(global.players_xray[event.player_index]) do
       if tree.valid then
-        swapTree(tree.name:sub(1, -6), tree, player.surface)
+        swapTree(tree.name:sub(1, -6), tree, tree.surface)
 
         tree.destroy({raise_destroy= false})
       end
