@@ -1,0 +1,30 @@
+Version: 1.0.3
+Date: 2024.10.20
+  Fixes:
+    - A type in the mod's initialization has been fixed.
+
+Version: 1.0.2
+Date: 2024.10.7
+  Fixes:
+    - Tree should not change surface with the player anymore.
+
+Version: 1.0.0
+Date: 2020.11.25
+  Fixes:
+    - Tree grayness will not be modified by the xray vision anymore
+---------------------------------------------------------------------------------------------------
+Version: 0.1.2
+Date: 2020.11.13
+  Fixes:
+    - Deconstruction order will not get canceled anymore when a tree toggle to xray mode
+---------------------------------------------------------------------------------------------------
+Version: 0.1.1
+Date: 2020.10.21
+  Optimisations:
+    - Corrected the way tree variations where created
+  
+  Graphics:
+    - Makes it so the trees' shadow doen't disapear
+
+  Locale:
+    - Added french translation

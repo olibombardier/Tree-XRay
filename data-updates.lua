@@ -141,6 +141,6 @@ end
 
 for name, original in pairs(trees) do
   if not xrayTreeBlacklist[name] then
-    createXrayTRee(original)
+    createXrayTree(original)
   end
 end
