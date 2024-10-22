@@ -1,13 +1,18 @@
+Version: 1.0.4
+Date: 202X.XX.XX
+  Fixes:
+    - A typo on the word 'typo' has been fixed in the changelog.
+---------------------------------------------------------------------------------------------------
 Version: 1.0.3
 Date: 2024.10.20
   Fixes:
-    - A type in the mod's initialization has been fixed.
-
+    - A typo in the mod's initialization has been fixed.
+---------------------------------------------------------------------------------------------------
 Version: 1.0.2
 Date: 2024.10.7
   Fixes:
     - Tree should not change surface with the player anymore.
-
+---------------------------------------------------------------------------------------------------
 Version: 1.0.0
 Date: 2020.11.25
   Fixes:
