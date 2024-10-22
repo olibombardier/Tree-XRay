@@ -8,11 +8,10 @@ data:extend{
     type = "shortcut",
     name = "x-ray-toggle",
     action = "lua",
-    icon = {
-      filename = "__Tree_XRay__/graphics/icon/x-ray-x32.png",
-      width = 32,
-      height = 32,
-    },
+    icon = "__Tree_XRay__/graphics/icon/x-ray-x32.png",
+    icon_size = 32,
+    small_icon = "__Tree_XRay__/graphics/icon/x-ray-x32.png",
+    small_icon_size = 32,
     toggleable = true,
     associated_control_input = "toggle-x-ray"
   },
