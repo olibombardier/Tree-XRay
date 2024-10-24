@@ -1,4 +1,5 @@
 require("blacklist")
+require("xray-sprites")
 
 local function suffixed(str, ending) -- Taken from bulk-teleport
 	return ending == "" or str:sub(-#ending) == ending
@@ -38,7 +39,7 @@ local function updatePlayerXray(playerIndex)
   local trees = surface.find_entities_filtered{position = player.position, radius = radius, type="tree"}
 
   for _, tree in ipairs(trees) do
-    if not suffixed(tree.name, "-xray") and not xrayTreeBlacklist[tree.name] then
+    if not suffixed(tree.name, "-xray") and not xrayTreeBlacklist[tree.name] and specificSprites[tree.name] then
       local newTree = swapTree(tree.name .. "-xray", tree, surface, player)
 
       tree.destroy({raise_destroy= false})

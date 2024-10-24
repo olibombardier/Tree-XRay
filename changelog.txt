@@ -1,7 +1,10 @@
 Version: 1.0.4
-Date: 202X.XX.XX
+Date: 2024.10.24
   Fixes:
+    - Updated for 2.0 (Thanks thepapanoob)
     - A typo on the word 'typo' has been fixed in the changelog.
+  Note:
+    - Some trees, especially those from the new planets, will not be xrayed properly.
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.3
 Date: 2024.10.20
