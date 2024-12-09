@@ -1,79 +1,35 @@
-specificSprites = {}
-specificSprites["tree-01"] = {
-  filename = "__Tree_XRay__/graphics/trees/tree-01.png",
-  width = 45,
-  height = 45,
-  shift = {0, -0.35},
-  width_in_frames = 1,
-  height_in_frames = 1,
-}
-specificSprites["tree-02"] = {
-  filename = "__Tree_XRay__/graphics/trees/tree-02.png",
-  width = 38,
-  height = 38,
-  shift = {0, -0.1},
-  width_in_frames = 1,
-  height_in_frames = 1,
-}
-specificSprites["tree-02-red"] = specificSprites["tree-02"]
-specificSprites["tree-03"] = {
-  filename = "__Tree_XRay__/graphics/trees/tree-03.png",
-  width = 52,
-  height = 52,
-  shift = {0, -0.1},
-  width_in_frames = 1,
-  height_in_frames = 1,
-}
-specificSprites["tree-04"] = {
-  filename = "__Tree_XRay__/graphics/trees/tree-04.png",
-  width = 58,
-  height = 58,
-  shift = {0, -0.2},
-  width_in_frames = 1,
-  height_in_frames = 1,
-}
-specificSprites["tree-05"] = {
-  filename = "__Tree_XRay__/graphics/trees/tree-05.png",
-  width = 31,
-  height = 31,
-  shift = {0, -0.2},
-  width_in_frames = 1,
-  height_in_frames = 1,
-}
-specificSprites["tree-06"] = {
-  filename = "__Tree_XRay__/graphics/trees/tree-06.png",
-  width = 55,
-  height = 55,
-  shift = {0, 0},
-  width_in_frames = 1,
-  height_in_frames = 1,
-}
-specificSprites["tree-06-brown"] = specificSprites["tree-06"]
-specificSprites["tree-07"] = {
-  filename = "__Tree_XRay__/graphics/trees/tree-07.png",
-  width = 49,
-  height = 50,
-  shift = {0, -0.2},
-  width_in_frames = 1,
-  height_in_frames = 1,
-}
-specificSprites["tree-08"] = {
-  filename = "__Tree_XRay__/graphics/trees/tree-08.png",
-  width = 46,
-  height = 46,
-  shift = {0, -0.25},
-  width_in_frames = 1,
-  height_in_frames = 1,
-}
-specificSprites["tree-08-brown"] = specificSprites["tree-08"]
-specificSprites["tree-08-red"] = specificSprites["tree-08"]
-specificSprites["tree-09"] = {
-  filename = "__Tree_XRay__/graphics/trees/tree-09.png",
-  width = 87,
-  height = 86,
-  shift = {0, -0.5},
-  width_in_frames = 1,
-  height_in_frames = 1,
-}
-specificSprites["tree-09-brown"] = specificSprites["tree-09"]
-specificSprites["tree-09-red"] = specificSprites["tree-09"]
+xraySprites = {}
+
+function add_tree_sprite(name, shift, width, height, options)
+  options = options or {}
+  xraySprites[name] = {
+    filename = "__Tree_XRay__/graphics/trees/" .. (options.sprite_name or name) .. ".png",
+    width = width,
+    height = height,
+    shift = shift,
+    width_in_frames = 1,
+    height_in_frames = 1
+  }
+  if options.scale then
+    xraySprites[name].scale = options.scale
+  end
+  if options.others then
+    for _, other in pairs(options.others) do
+      xraySprites[other] = xraySprites[name]
+    end
+  end
+end
+
+add_tree_sprite("tree-01", {0, -0.35}, 45, 45)
+add_tree_sprite("tree-02", {0, -0.1}, 38, 38, {others = {"tree-02-red"}})
+add_tree_sprite("tree-03", {0, -0.1}, 52, 52)
+add_tree_sprite("tree-04", {0, -0.2}, 58, 58)
+add_tree_sprite("tree-05", {0, -0.2}, 31, 31)
+add_tree_sprite("tree-06", {0, 0}, 55, 55, {others = {"tree-06-brown"}})
+add_tree_sprite("tree-07", {0, -0.2}, 49, 50)
+add_tree_sprite("tree-08", {0, -0.25}, 46, 46, {others = {"tree-08-brown", "tree-08-red"}})
+add_tree_sprite("tree-09", {0, -0.5}, 87, 86, {others = {"tree-09-brown", "tree-09-red"}})
+
+if (mods and mods["alien-biomes"]) or (script and script.active_mods["alien-biomes"]) then
+  require('mods.alien-biomes')
+end

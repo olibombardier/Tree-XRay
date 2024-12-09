@@ -41,7 +41,7 @@ local function createXrayTree(original)
         variation.leaves.frame_sequence[i] = 1
       end
 
-      local trunk = specificSprites[original.name] or trunkSprite
+      local trunk = xraySprites[original.name] or trunkSprite
       variation.trunk = trunk
     end
   end
@@ -56,7 +56,7 @@ local function createXrayTree(original)
 end
 
 for name, original in pairs(trees) do
-  if not xrayTreeBlacklist[name] and specificSprites[original.name] then
+  if not xrayTreeBlacklist[name] and xraySprites[original.name] then
     createXrayTree(original)
   end
 end

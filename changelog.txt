@@ -1,3 +1,11 @@
+Version: 1.0.7
+Date: 2024.12.08
+  Compatibility:
+    - Added support for Alien Biomes trees
+  
+  Changes:
+    - Cleaned up of prototype sprites' data generation
+---------------------------------------------------------------------------------------------------
 Version: 1.0.6
 Date: 2024.10.28
   Fixes:
