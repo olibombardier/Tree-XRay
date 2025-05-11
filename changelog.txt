@@ -1,8 +1,16 @@
+---------------------------------------------------------------------------------------------------
+Version: 1.0.8
+Date: 2025.99.99
+  Features:
+    - Added x-ray selection tool
+  Changes:
+    - Removed unused value in prototypes
+    - Fixed changelog formatting
+---------------------------------------------------------------------------------------------------
 Version: 1.0.7
 Date: 2024.12.08
   Compatibility:
     - Added support for Alien Biomes trees
-  
   Changes:
     - Cleaned up of prototype sprites' data generation
 ---------------------------------------------------------------------------------------------------
@@ -43,7 +51,6 @@ Version: 0.1.1
 Date: 2020.10.21
   Optimisations:
     - Corrected the way tree variations where created
-  
   Graphics:
     - Makes it so the trees' shadow doen't disapear
 

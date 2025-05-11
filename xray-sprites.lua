@@ -7,8 +7,6 @@ function add_tree_sprite(name, shift, width, height, options)
     width = width,
     height = height,
     shift = shift,
-    width_in_frames = 1,
-    height_in_frames = 1
   }
   if options.scale then
     xraySprites[name].scale = options.scale

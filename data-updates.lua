@@ -15,8 +15,6 @@ local trunkSprite = {
   width = 72,
   height = 73,
   shift = {0, -3},
-  width_in_frames = 1,
-  height_in_frames = 1,
   frame_count = 2
 }
 
