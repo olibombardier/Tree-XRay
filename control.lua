@@ -1,12 +1,20 @@
 require("blacklist")
 require("xray-sprites")
 
+---@param str string
+---@param ending string
+---@return boolean
 local function suffixed(str, ending) -- Taken from bulk-teleport
 	return ending == "" or str:sub(-#ending) == ending
 end
 
-local function swapTree(name, old, surface, player)
-  local newTree = surface.create_entity({
+---Swaps a tree for a new one
+---@param name string
+---@param old LuaEntity
+---@param player LuaPlayer
+---@return LuaEntity?
+local function swapTree(name, old, player)
+  local newTree = old.surface.create_entity({
     name = name, 
     position = old.position,
     force = old.force,
@@ -14,6 +22,8 @@ local function swapTree(name, old, surface, player)
     create_build_effect_smoke = false,
     spawn_decorations = false
   })
+
+  if not newTree then return nil end
 
   if old.to_be_deconstructed() then
     newTree.order_deconstruction(player.force, player)
@@ -31,24 +41,51 @@ local function swapTree(name, old, surface, player)
   return newTree
 end
 
+---Turn a tree in its xray version
+---@param tree LuaEntity
+---@param player LuaPlayer
+---@return LuaEntity?
+local function xray_tree(tree, player)
+  if not suffixed(tree.name, "-xray") and not xrayTreeBlacklist[tree.name] and xraySprites[tree.name] then
+    local newTree = swapTree(tree.name .. "-xray", tree, player)
+    if not newTree then return nil end
+
+    tree.destroy({raise_destroy= false})
+
+    if not storage.players_xray[player.index] then
+      storage.players_xray[player.index] = {}
+    end
+    table.insert(storage.players_xray[player.index], newTree)
+
+    return newTree
+  end
+end
+
+--TODO Remove index -> table with entity as keys
+
+---Turn an xrayed tree in its normal version
+---@param tree LuaEntity
+---@param player LuaPlayer
+---@return LuaEntity?
+local function unxray_tree(tree, player, index)
+  local new_tree = swapTree(tree.name:sub(1, -6), tree, player)
+  if not new_tree then return nil end
+
+  tree.destroy({raise_destroy= false})
+
+  storage.players_xray[player.index][index] = nil
+
+  return new_tree
+end
+
 local function updatePlayerXray(playerIndex)
   local player = game.get_player(playerIndex)
   local radius = player.mod_settings["x-ray-tile-radius"].value
   local surface = player.surface
 
   local trees = surface.find_entities_filtered{position = player.position, radius = radius, type="tree"}
-
   for _, tree in ipairs(trees) do
-    if not suffixed(tree.name, "-xray") and not xrayTreeBlacklist[tree.name] and xraySprites[tree.name] then
-      local newTree = swapTree(tree.name .. "-xray", tree, surface, player)
-
-      tree.destroy({raise_destroy= false})
-
-      if not storage.players_xray[playerIndex] then
-        storage.players_xray[playerIndex] = {}
-      end
-      table.insert(storage.players_xray[playerIndex], newTree)
-    end
+    xray_tree(tree, player)
   end
 
   -- check already 'xrayed' trees
@@ -61,11 +98,7 @@ local function updatePlayerXray(playerIndex)
         local dy = tree.position.y - player.position.y
 
         if dx * dx + dy * dy > radius * radius then
-          swapTree(tree.name:sub(1, -6), tree, surface, player)
-
-          tree.destroy({raise_destroy= false})
-
-          storage.players_xray[playerIndex][index] = nil
+          unxray_tree(tree, player, index)
         end
       else
         storage.players_xray[playerIndex][index] = nil
@@ -74,7 +107,7 @@ local function updatePlayerXray(playerIndex)
   end
 end
 
-local function setupFrequency(frequency) 
+local function setupFrequency(frequency)
   if storage.current_frequency then 
     script.on_nth_tick(math.ceil(60 / storage.current_frequency), nil)
   end
@@ -159,4 +192,32 @@ script.on_event(defines.events.on_lua_shortcut,
     end
   end
 )
+
 script.on_event('toggle-x-ray', toggleXray)
+
+script.on_event(defines.events.on_player_selected_area, function (event)
+  if event.item ~= "x-ray-selection" then return end
+  for _, tree in pairs(event.entities) do
+    local player = game.get_player(event.player_index)
+    xray_tree(tree, player)
+  end
+end)
+
+script.on_event({
+      defines.events.on_player_alt_selected_area,
+      defines.events.on_player_reverse_selected_area,
+      defines.events.on_player_alt_reverse_selected_area},
+      function (event)
+  ---@cast event EventData.on_player_selected_area
+  if event.item ~= "x-ray-selection" then return end
+  for _, tree in pairs(event.entities) do
+    if suffixed(tree.name, "-xray") then
+      local player = game.get_player(event.player_index)
+      local index = 0
+      for i, xtree in pairs(storage.players_xray[player.index]) do
+        if xtree == tree then index = i end
+      end
+      unxray_tree(tree, player, index)
+    end
+  end
+end)
