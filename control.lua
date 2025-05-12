@@ -72,19 +72,30 @@ local function toggleXray(event)
   player.set_shortcut_toggled("x-ray-toggle", newValue)
 end
 
+---@param player_index int
+---@return string
+local function make_selection_id(player_index) return "selection-" .. tostring(player_index) end
+
+---@param event EventData.on_lua_shortcut
+local function deselect_all(event)
+  local player = game.get_player(event.player_index)
+  if player then
+    xray.clear_xray_source(make_selection_id(event.player_index), player)
+  end
+end
+
 script.on_event(defines.events.on_lua_shortcut,
   function(event)
     if event.prototype_name == "x-ray-toggle" then
       toggleXray(event)
+    elseif event.prototype_name == "remove-x-ray-selection" then
+      deselect_all(event)
     end
   end
 )
 
 script.on_event('toggle-x-ray', toggleXray)
-
----@param player_index int
----@return string
-local function make_selection_id(player_index) return "selection-" .. tostring(player_index) end
+script.on_event('remove-x-ray-selection', deselect_all)
 
 script.on_event(defines.events.on_player_selected_area, function(event)
   if event.item ~= "x-ray-selection" then return end
@@ -108,3 +119,11 @@ script.on_event({
       end
     end
   end)
+
+script.on_event(defines.events.on_object_destroyed, function(event)
+  local id = event.registration_number
+  if xray.id_to_tree[id] then
+    xray.id_to_tree[id] = nil
+    xray.xrayed_trees[id] = nil
+  end
+end)

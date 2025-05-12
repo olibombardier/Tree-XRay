@@ -3,24 +3,40 @@ local sprites = require("xray-sprites")
 
 local xray = {}
 
----@type table<LuaEntity, table<(int|string), int>>
+---@type table<int, table<(int|string), int>>
 xray.xrayed_trees = {}
 
----@type table<int|string, table<LuaEntity, int>>
+---@type table<int|string, table<int, int>>
 xray.xray_sources = {}
 
 ---@type table<int, true>
 xray.players_to_check = {}
 
+---@type table<int, LuaEntity>
+xray.id_to_tree = {}
+
 ---Setups local references to storage
 function xray.init()
   storage.xrayed_trees = storage.xrayed_trees or {}
   storage.xray_sources = storage.xray_sources or {}
+  storage.players_to_check = storage.players_to_check or {}
 end
 
 function xray.setup()
   xray.xrayed_trees = storage.xrayed_trees
   xray.xray_sources = storage.xray_sources
+  xray.players_to_check = storage.players_to_check
+end
+
+---Get the id of a tree and registers it if needed
+---@param tree LuaEntity
+---@return integer
+function xray.get_or_register_tree_id(tree)
+  local id = script.register_on_object_destroyed(tree)
+
+  if not xray.id_to_tree[id] then xray.id_to_tree[id] = tree end
+
+  return id
 end
 
 ---register a player to be checked at the next update
@@ -39,9 +55,13 @@ function xray.clear_xray_source(source, player)
 
   local sources = xray.xray_sources[source]
   if sources then
-    for tree in pairs(sources) do
-      xray.remove_xray_source(tree, source, player)
+    for tree_id in pairs(sources) do
+      local tree = xray.id_to_tree[tree_id]
+      if tree and tree.valid then
+        xray.remove_xray_source(tree, source, player)
+      end
     end
+    xray.xray_sources[source] = {}
   end
 end
 
@@ -59,7 +79,7 @@ function xray.swap_tree(tree, new_tree_name, player)
     spawn_decorations = false
   })
 
-  if not new_tree then error("Tree could not be made") end
+  if not new_tree then error(new_tree_name .. " could not be made") end
 
   if tree.to_be_deconstructed() then
     new_tree.order_deconstruction(player.force, player)
@@ -89,19 +109,20 @@ end
 ---@param source (int|string)
 ---@param player LuaPlayer
 function xray.add_xray_source(tree, source, player)
-  local sources = xray.xrayed_trees[tree] or {}
-
   if not xray.is_xrayed(tree) then
     if not sprites[tree.name] or blacklist[tree.name] then return end
     tree = xray.swap_tree(tree, tree.name .. "-xray", player)
   end
 
+  local tree_id = xray.get_or_register_tree_id(tree)
+  local sources = xray.xrayed_trees[tree_id] or {}
+
   local tick = game.tick
   sources[source] = tick
 
-  xray.xrayed_trees[tree] = sources
+  xray.xrayed_trees[tree_id] = sources
   xray.xray_sources[source] = xray.xray_sources[source] or {}
-  xray.xray_sources[source][tree] = tick
+  xray.xray_sources[source][tree_id] = tick
 end
 
 ---Removes an xray source to a xrayed tree, turning it back to normal if no sources remain
@@ -109,23 +130,23 @@ end
 ---@param source (int|string)
 ---@param player LuaPlayer
 function xray.remove_xray_source(tree, source, player)
-  if not tree.valid then
-    xray.xrayed_trees[tree] = nil
+  if not tree.valid or not xray.is_xrayed(tree) then
     return
   end
-  local sources = xray.xrayed_trees[tree]
-  if not sources or not xray.is_xrayed(tree) then return end
+  local tree_id = xray.get_or_register_tree_id(tree)
+  local sources = xray.xrayed_trees[tree_id]
+  if not sources then return end
 
   sources[source] = nil
 
   if table_size(sources) == 0 then
     --turn the tree back to normal
-    xray.xrayed_trees[tree] = nil
+    xray.xrayed_trees[tree_id] = nil
     xray.swap_tree(tree, tree.name:sub(1, -6), player)
   end
 
   if xray.xray_sources[source] then
-    xray.xray_sources[source][tree] = nil
+    xray.xray_sources[source][tree_id] = nil
   end
 end
 
@@ -133,9 +154,7 @@ function xray.update()
   for player_id in pairs(xray.players_to_check) do
     local player = game.get_player(player_id)
 
-    if not player then
-      xray.players_to_check[player_id] = nil
-    else
+    if player then
       local position = player.position
       local radius = player.mod_settings["x-ray-tile-radius"].value
       local radius_sqr = radius * radius
@@ -149,10 +168,11 @@ function xray.update()
 
       local tick = game.tick
       local sources = xray.xray_sources[player_id] or {}
-      for tree, tree_tick in pairs(sources) do
-        if not tree.valid then
-          sources[tree] = nil
-        elseif tree_tick < tick then
+      for tree_id, tree_tick in pairs(sources) do
+        local tree = xray.id_to_tree[tree_id]
+        if not tree or not tree.valid then
+          sources[tree_id] = nil
+        elseif tree_tick + 30 < tick then
           local tree_position = tree.position
           local dx = tree_position.x - position.x
           local dy = tree_position.y - position.y
@@ -163,6 +183,7 @@ function xray.update()
         end
       end
     end
+    xray.players_to_check[player_id] = nil
   end
 end
 
