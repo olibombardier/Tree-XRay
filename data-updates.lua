@@ -1,5 +1,5 @@
-require("blacklist")
-require("xray-sprites")
+local xrayTreeBlacklist = require("blacklist")
+local xraySprites = require("xray-sprites")
 
 local trees = table.deepcopy(data.raw["tree"])
 
@@ -14,7 +14,7 @@ local trunkSprite = {
   filename = "__Tree_XRay__/graphics/tree-xray.png",
   width = 72,
   height = 73,
-  shift = {0, -3},
+  shift = { 0, -3 },
   frame_count = 2
 }
 
@@ -25,7 +25,7 @@ local function createXrayTree(original)
   local newTree = table.deepcopy(original)
   newTree.name = newTree.name .. "-xray"
   if changeSelectionBox then
-    newTree.selection_box = {{-halfSelectionBox, -halfSelectionBox}, {halfSelectionBox, halfSelectionBox}}
+    newTree.selection_box = { { -halfSelectionBox, -halfSelectionBox }, { halfSelectionBox, halfSelectionBox } }
   end
 
   if newTree.variations then
@@ -35,7 +35,7 @@ local function createXrayTree(original)
       variation.normal = nil
 
       variation.leaves.frame_sequence = {}
-      for i=1,frameCount or 1 do
+      for i = 1, frameCount or 1 do
         variation.leaves.frame_sequence[i] = 1
       end
 
@@ -50,7 +50,7 @@ local function createXrayTree(original)
     end
   end
 
-  data:extend{newTree}
+  data:extend { newTree }
 end
 
 for name, original in pairs(trees) do

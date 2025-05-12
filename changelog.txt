@@ -1,11 +1,12 @@
 ---------------------------------------------------------------------------------------------------
-Version: 1.0.8
+Version: 1.1.0
 Date: 2025.99.99
   Features:
     - Added x-ray selection tool
   Changes:
     - Removed unused value in prototypes
     - Fixed changelog formatting
+    - Removed doubled "i" icons in settings
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.7
 Date: 2024.12.08
