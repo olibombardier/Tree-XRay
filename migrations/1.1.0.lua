@@ -12,9 +12,9 @@ for player_id, player_storage in pairs(storage.players_xray) do
 		for _, tree in pairs(player_storage) do
 			if tree.valid then
 				xrayed_trees[tree] = xrayed_trees[tree] or {}
-				xrayed_trees[tree][player_id] = true
+				xrayed_trees[tree][player_id] = game.tick
 
-				storage.xray_sources[player_id][tree] = true
+				storage.xray_sources[player_id][tree] = game.tick
 			end
 		end
 	end
