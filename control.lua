@@ -63,7 +63,7 @@ local function toggleXray(event)
   if not player then return end
 
   if not newValue then --  put back normal trees for this play
-    xray.stop_player_xray(player)
+    xray.clear_xray_source(player.index, player)
   else
     xray.check_player(event.player_index)
   end

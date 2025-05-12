@@ -30,14 +30,17 @@ function xray.check_player(player_index)
 end
 
 ---turn xrayed trees around the player back to normal
+---@param source int|string
 ---@param player LuaPlayer
-function xray.stop_player_xray(player)
-  xray.players_to_check[player.index] = nil
+function xray.clear_xray_source(source, player)
+  if type(source) == "number" then
+    xray.players_to_check[source] = nil
+  end
 
-  local sources = xray.xray_sources[player.index]
+  local sources = xray.xray_sources[source]
   if sources then
     for tree in pairs(sources) do
-      xray.remove_xray_source(tree, player.index, player)
+      xray.remove_xray_source(tree, source, player)
     end
   end
 end
@@ -56,7 +59,7 @@ function xray.swap_tree(tree, new_tree_name, player)
     spawn_decorations = false
   })
 
-  if not new_tree then return tree end
+  if not new_tree then error("Tree could not be made") end
 
   if tree.to_be_deconstructed() then
     new_tree.order_deconstruction(player.force, player)
@@ -135,6 +138,7 @@ function xray.update()
     else
       local position = player.position
       local radius = player.mod_settings["x-ray-tile-radius"].value
+      local radius_sqr = radius * radius
       ---@cast radius number
 
       local trees = player.surface.find_entities_filtered { position = position, radius = radius, type = "tree" }
@@ -148,12 +152,12 @@ function xray.update()
       for tree, tree_tick in pairs(sources) do
         if not tree.valid then
           sources[tree] = nil
-          xray.xrayed_trees[tree] = nil
         elseif tree_tick < tick then
-          local dx = tree.position.x - position.x
-          local dy = tree.position.y - position.y
+          local tree_position = tree.position
+          local dx = tree_position.x - position.x
+          local dy = tree_position.y - position.y
 
-          if dx * dx + dy * dy > radius * radius then
+          if dx * dx + dy * dy > radius_sqr then
             xray.remove_xray_source(tree, player_id, player)
           end
         end
