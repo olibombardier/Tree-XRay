@@ -1,6 +1,10 @@
 local blacklist = require("blacklist")
 local sprites = require("xray-sprites")
 
+if script.active_mods["alien-biomes"] then
+  require('mods.alien-biomes')
+end
+
 local xray = {}
 
 ---@type table<int, table<(int|string), int>>

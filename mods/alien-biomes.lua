@@ -1,64 +1,106 @@
-add_tree_sprite("tree-wetland-a", {0, -0.1}, 91, 75, {sprite_name = "tree-ash", scale = 0.5, others = {
-	"tree-grassland-a",
-	"tree-grassland-d",
-	"tree-grassland-f",
-	"tree-grassland-g",
-	"tree-grassland-m"
-}})
+local xraySprites = require("__Tree_XRay__.xray-sprites")
 
-add_tree_sprite("tree-desert-h", {0, -0.1}, 128, 110, {sprite_name = "tree-baobab", scale = 0.5, others = {
-	"tree-desert-k",
-	"tree-desert-m"
-}})
+add_tree_sprite("tree-wetland-a", { 0, -0.1 }, 91, 75, {
+	sprite_name = "tree-ash",
+	scale = 0.5,
+	others = {
+		"tree-grassland-a",
+		"tree-grassland-d",
+		"tree-grassland-f",
+		"tree-grassland-g",
+		"tree-grassland-m"
+	}
+})
 
-add_tree_sprite("tree-snow-01", {0, -0.1}, 127, 97, {sprite_name = "tree-conifer-01", scale = 0.5})
+add_tree_sprite("tree-desert-h", { 0, -0.1 }, 128, 110, {
+	sprite_name = "tree-baobab",
+	scale = 0.5,
+	others = {
+		"tree-desert-k",
+		"tree-desert-m"
+	}
+})
 
-add_tree_sprite("tree-grassland-i", {0, -0.1}, 63, 55, {sprite_name = "tree-greypine", scale = 0.5, others = {
-	"tree-grassland-n",
-	"tree-dryland-k",
-	"tree-desert-c",
-	"tree-desert-i"
-}})
+add_tree_sprite("tree-snow-01", { 0, -0.1 }, 127, 97, { sprite_name = "tree-conifer-01", scale = 0.5 })
 
-add_tree_sprite("tree-wetland-f", {0, -0.1}, 71, 75, {sprite_name = "tree-mangrove", scale = 0.5, others = {
-	"tree-wetland-i",
-	"tree-wetland-n"
-}})
+add_tree_sprite("tree-grassland-i", { 0, -0.1 }, 63, 55, {
+	sprite_name = "tree-greypine",
+	scale = 0.5,
+	others = {
+		"tree-grassland-n",
+		"tree-dryland-k",
+		"tree-desert-c",
+		"tree-desert-i"
+	}
+})
 
-add_tree_sprite("tree-volcanic-a", {0, -0.1}, 46, 55, {sprite_name = "tree-medusa", scale = 0.5})
+add_tree_sprite("tree-wetland-f", { 0, -0.1 }, 71, 75, {
+	sprite_name = "tree-mangrove",
+	scale = 0.5,
+	others = {
+		"tree-wetland-i",
+		"tree-wetland-n"
+	}
+})
 
-add_tree_sprite("tree-wetland-a", {0, -0.1}, 111, 79, {sprite_name = "tree-oaktapus", scale = 0.5, others = {
-	"tree-wetland-l",
-	"tree-grassland-c",
-	"tree-dryland-e",
-	"tree-dryland-g"
-}})
+add_tree_sprite("tree-volcanic-a", { 0, -0.1 }, 46, 55, { sprite_name = "tree-medusa", scale = 0.5 })
 
-add_tree_sprite("tree-palm-a", {0, -0.1}, 60, 60, {sprite_name = "tree-palm", scale = 0.5, others = {
-	"tree-palm-b"
-}})
+add_tree_sprite("tree-wetland-a", { 0, -0.1 }, 111, 79, {
+	sprite_name = "tree-oaktapus",
+	scale = 0.5,
+	others = {
+		"tree-wetland-l",
+		"tree-grassland-c",
+		"tree-dryland-e",
+		"tree-dryland-g"
+	}
+})
 
-add_tree_sprite("tree-desert-b", {0, -0.1}, 130, 93, {sprite_name = "tree-pear", scale = 0.5, others = {
-	"tree-desert-d",
-	"tree-desert-f"
-}})
+add_tree_sprite("tree-palm-a", { 0, -0.1 }, 60, 60, {
+	sprite_name = "tree-palm",
+	scale = 0.5,
+	others = {
+		"tree-palm-b"
+	}
+})
 
-add_tree_sprite("tree-grassland-b", {0, -0.1}, 110, 93, {sprite_name = "tree-scarecrow", scale = 0.5, others = {
-	"tree-grassland-e",
-	"tree-grassland-h3",
-	"tree-dryland-c",
-	"tree-dryland-m"
-}})
+add_tree_sprite("tree-desert-b", { 0, -0.1 }, 130, 93, {
+	sprite_name = "tree-pear",
+	scale = 0.5,
+	others = {
+		"tree-desert-d",
+		"tree-desert-f"
+	}
+})
 
-add_tree_sprite("tree-wetland-b", {0, -0.1}, 132, 96, {sprite_name = "tree-specter", scale = 0.5, others = {
-	"tree-wetland-d",
-	"tree-grassland-l",
-	"tree-grassland-q"
-}})
+add_tree_sprite("tree-grassland-b", { 0, -0.1 }, 110, 93, {
+	sprite_name = "tree-scarecrow",
+	scale = 0.5,
+	others = {
+		"tree-grassland-e",
+		"tree-grassland-h3",
+		"tree-dryland-c",
+		"tree-dryland-m"
+	}
+})
 
-add_tree_sprite("tree-dryland-a", {0, -0.1}, 120, 92, {sprite_name = "tree-willow", scale = 0.5, others = {
-	"tree-dryland-i"
-}})
+add_tree_sprite("tree-wetland-b", { 0, -0.1 }, 132, 96, {
+	sprite_name = "tree-specter",
+	scale = 0.5,
+	others = {
+		"tree-wetland-d",
+		"tree-grassland-l",
+		"tree-grassland-q"
+	}
+})
+
+add_tree_sprite("tree-dryland-a", { 0, -0.1 }, 120, 92, {
+	sprite_name = "tree-willow",
+	scale = 0.5,
+	others = {
+		"tree-dryland-i"
+	}
+})
 
 xraySprites["tree-wetland-o"] = xraySprites["tree-01"]
 xraySprites["tree-dryland-j"] = xraySprites["tree-01"]

@@ -28,8 +28,4 @@ add_tree_sprite("tree-07", { 0, -0.2 }, 49, 50)
 add_tree_sprite("tree-08", { 0, -0.25 }, 46, 46, { others = { "tree-08-brown", "tree-08-red" } })
 add_tree_sprite("tree-09", { 0, -0.5 }, 87, 86, { others = { "tree-09-brown", "tree-09-red" } })
 
-if (mods and mods["alien-biomes"]) or (script and script.active_mods["alien-biomes"]) then
-  require('mods.alien-biomes')
-end
-
 return xraySprites

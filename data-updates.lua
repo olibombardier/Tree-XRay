@@ -1,5 +1,9 @@
 local xrayTreeBlacklist = require("blacklist")
-local xraySprites = require("xray-sprites")
+local xraySprites = require("__Tree_XRay__.xray-sprites")
+
+if (mods and mods["alien-biomes"]) or (script and script.active_mods["alien-biomes"]) then
+  require('mods.alien-biomes')
+end
 
 local trees = table.deepcopy(data.raw["tree"])
 

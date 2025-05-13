@@ -1,16 +1,18 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.1
-Date: ????
-  Changes:
+Date: 2025-05-13
+  Fixes:
+    - Fixed compatibility with Alien Biomes
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.0
 Date: 2025-05-12
   Features:
-    - Added x-ray selection tool
+    - Added x-ray selection tool to use xray on an area
   Changes:
     - Removed unused value in prototypes
     - Fixed changelog formatting
     - Removed doubled "i" icons in settings
+    - Refactored a big part of the codebase
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.7
 Date: 2024.12.08
