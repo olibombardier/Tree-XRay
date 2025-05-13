@@ -1,18 +1,14 @@
 local xray = require("scripts.xray")
 
 local function setupFrequency(frequency)
-  if storage.current_frequency then
-    script.on_nth_tick(math.ceil(60 / storage.current_frequency), nil)
-  end
-
-  script.on_nth_tick(math.ceil(60 / frequency),
-    function()
-      xray.update()
-    end
-  )
-
-  storage.current_frequency = frequency
+  storage.current_frequency = math.ceil(60 / frequency)
 end
+
+script.on_nth_tick(1, function(event)
+  if event.tick % storage.current_frequency == 0 then
+    xray.update()
+  end
+end)
 
 local function init()
   xray.init()
