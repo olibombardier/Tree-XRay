@@ -173,16 +173,18 @@ function xray.update()
       local tick = game.tick
       local sources = xray.xray_sources[player_id] or {}
       for tree_id, tree_tick in pairs(sources) do
-        local tree = xray.id_to_tree[tree_id]
-        if not tree or not tree.valid then
-          sources[tree_id] = nil
-        elseif tree_tick + 30 < tick then
-          local tree_position = tree.position
-          local dx = tree_position.x - position.x
-          local dy = tree_position.y - position.y
+        if tree_tick + 30 < tick then
+          local tree = xray.id_to_tree[tree_id]
+          if not tree or not tree.valid then
+            sources[tree_id] = nil
+          else
+            local tree_position = tree.position
+            local dx = tree_position.x - position.x
+            local dy = tree_position.y - position.y
 
-          if dx * dx + dy * dy > radius_sqr then
-            xray.remove_xray_source(tree, player_id, player)
+            if dx * dx + dy * dy > radius_sqr then
+              xray.remove_xray_source(tree, player_id, player)
+            end
           end
         end
       end

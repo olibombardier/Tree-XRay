@@ -8,7 +8,7 @@ end
 local trees = table.deepcopy(data.raw["tree"])
 
 local emptyAnim = {
-  filename = "__Tree_XRay__/graphics/empty.png",
+  filename = "__core__/graphics/empty.png",
   width = 1,
   height = 1,
   frame_count = 1
@@ -25,6 +25,7 @@ local trunkSprite = {
 local changeSelectionBox = settings.startup["x-ray-tree-selection-box-affected"].value
 local halfSelectionBox = settings.startup["x-ray-tree-selection-box"].value / 2
 
+---@param original data.TreePrototype
 local function createXrayTree(original)
   local newTree = table.deepcopy(original)
   newTree.name = newTree.name .. "-xray"
@@ -53,6 +54,8 @@ local function createXrayTree(original)
       newTree.pictures[index] = trunkSprite
     end
   end
+
+  newTree.factoriopedia_alternative = original.factoriopedia_alternative or original.name
 
   data:extend { newTree }
 end

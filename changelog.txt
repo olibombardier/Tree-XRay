@@ -1,8 +1,15 @@
 ---------------------------------------------------------------------------------------------------
+Version: 1.1.3
+Date: 2025-05-24
+  Changes:
+    - Use the base game empty image instead of adding one
+    - Make xrayed trees use their base tree Factoriopedia entry instead of having their own
+    - Reduces a little bit the numbers of checks made on each updates
+---------------------------------------------------------------------------------------------------
 Version: 1.1.2
 Date: 2025-05-13
   Fixes:
-    - Attempt to fic an error causing event desync when loading a multiplayer game
+    - Attempt to fix an error causing event desync when loading a multiplayer game
 ---------------------------------------------------------------------------------------------------
 Version: 1.1.1
 Date: 2025-05-13
